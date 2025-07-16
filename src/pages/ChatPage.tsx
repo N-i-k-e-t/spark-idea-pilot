@@ -138,20 +138,20 @@ export function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] w-full max-w-full overflow-hidden">
+    <div className="flex flex-col h-full w-full max-w-full overflow-hidden">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto px-2 sm:px-4 py-4 space-y-4 min-h-0">
-        <div className="max-w-4xl mx-auto space-y-4">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-1 sm:px-2 py-2 sm:py-4 space-y-3 sm:space-y-4 min-h-0 scrollbar-thin">
+        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4 w-full">
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} chat-message`}
+              className={`flex w-full ${message.sender === "user" ? "justify-end" : "justify-start"} chat-message`}
             >
               <div
-                className={`max-w-[85%] sm:max-w-[75%] md:max-w-[60%] p-3 sm:p-4 rounded-2xl ${
+                className={`max-w-[90%] sm:max-w-[80%] md:max-w-[70%] lg:max-w-[60%] p-3 sm:p-4 rounded-2xl break-words ${
                   message.sender === "user"
                     ? "bg-gradient-primary text-white"
-                    : "bg-card border shadow-sm"
+                    : "bg-card border shadow-sm glass-yellow"
                 }`}
               >
                 <div className="flex items-center gap-2 mb-2">
@@ -164,7 +164,7 @@ export function ChatPage() {
                     {message.sender === "ai" ? "AI Co-Pilot" : "You"}
                   </span>
                 </div>
-                <p className="text-sm leading-relaxed break-words">{message.content}</p>
+                <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">{message.content}</p>
                 <span className="text-xs opacity-70 mt-2 block">
                   {message.timestamp.toLocaleTimeString()}
                 </span>
@@ -173,8 +173,8 @@ export function ChatPage() {
           ))}
           
           {isTyping && (
-            <div className="flex justify-start">
-              <div className="bg-card border shadow-sm p-3 sm:p-4 rounded-2xl max-w-[85%] sm:max-w-[75%] md:max-w-[60%]">
+            <div className="flex justify-start w-full">
+              <div className="bg-card border shadow-sm glass-yellow p-3 sm:p-4 rounded-2xl max-w-[90%] sm:max-w-[80%] md:max-w-[70%] lg:max-w-[60%]">
                 <div className="flex items-center gap-2 mb-2">
                   <Bot className="h-4 w-4" />
                   <span className="text-sm font-medium">AI Co-Pilot</span>
@@ -193,13 +193,13 @@ export function ChatPage() {
       </div>
 
       {/* Suggestion Cards */}
-      <div className="px-2 sm:px-4 py-2 border-t bg-card/50 backdrop-blur-sm">
-        <div className="max-w-4xl mx-auto">
+      <div className="px-1 sm:px-2 py-2 border-t glass-yellow backdrop-blur-sm flex-shrink-0">
+        <div className="max-w-4xl mx-auto w-full">
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {suggestions.map((suggestion) => (
               <Card
                 key={suggestion.id}
-                className="flex-shrink-0 cursor-pointer hover:shadow-md transition-all glow min-w-[200px] max-w-[250px]"
+                className="flex-shrink-0 cursor-pointer hover:shadow-md transition-all glow min-w-[180px] sm:min-w-[200px] max-w-[250px]"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 <CardContent className="p-3">
@@ -220,8 +220,8 @@ export function ChatPage() {
       </div>
 
       {/* Input Area */}
-      <div className="px-2 sm:px-4 py-4 border-t bg-card/50 backdrop-blur-sm">
-        <div className="max-w-4xl mx-auto">
+      <div className="px-1 sm:px-2 py-3 sm:py-4 border-t glass-yellow backdrop-blur-sm flex-shrink-0">
+        <div className="max-w-4xl mx-auto w-full">
           <div className="flex gap-2">
             <div className="flex-1 min-w-0">
               <Input

@@ -14,7 +14,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen w-full flex bg-gradient-to-br from-background via-yellow-50/20 to-secondary/30 overflow-hidden">
+      <div className="min-h-screen w-full flex bg-gradient-to-br from-background via-yellow-50/30 to-secondary/40 overflow-hidden viewport-constrained">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col min-w-0 max-w-full">
@@ -23,10 +23,12 @@ export function Layout({ children }: LayoutProps) {
             wisdomSidebarOpen={wisdomSidebarOpen}
           />
           
-          <main className="flex-1 overflow-hidden relative">
-            <div className="h-full w-full overflow-auto">
-              <div className="container mx-auto px-4 py-4 max-w-full">
-                {children}
+          <main className="flex-1 overflow-hidden relative min-h-0">
+            <div className="h-full w-full overflow-y-auto overflow-x-hidden scrollbar-thin">
+              <div className="w-full min-h-full safe-area">
+                <div className="max-w-full mx-auto px-2 sm:px-4 py-3 sm:py-4">
+                  {children}
+                </div>
               </div>
             </div>
             
