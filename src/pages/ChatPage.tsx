@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -137,116 +138,121 @@ export function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-background to-secondary/30">
+    <div className="flex flex-col h-[calc(100vh-4rem)] w-full max-w-full overflow-hidden">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} chat-message`}
-          >
+      <div className="flex-1 overflow-y-auto px-2 sm:px-4 py-4 space-y-4 min-h-0">
+        <div className="max-w-4xl mx-auto space-y-4">
+          {messages.map((message) => (
             <div
-              className={`max-w-[80%] md:max-w-[60%] p-4 rounded-2xl ${
-                message.sender === "user"
-                  ? "bg-gradient-primary text-white"
-                  : "bg-card border shadow-sm"
-              }`}
+              key={message.id}
+              className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} chat-message`}
             >
-              <div className="flex items-center gap-2 mb-2">
-                {message.sender === "ai" ? (
-                  <Bot className="h-4 w-4" />
-                ) : (
-                  <User className="h-4 w-4" />
-                )}
-                <span className="text-sm font-medium">
-                  {message.sender === "ai" ? "AI Co-Pilot" : "You"}
+              <div
+                className={`max-w-[85%] sm:max-w-[75%] md:max-w-[60%] p-3 sm:p-4 rounded-2xl ${
+                  message.sender === "user"
+                    ? "bg-gradient-primary text-white"
+                    : "bg-card border shadow-sm"
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  {message.sender === "ai" ? (
+                    <Bot className="h-4 w-4 flex-shrink-0" />
+                  ) : (
+                    <User className="h-4 w-4 flex-shrink-0" />
+                  )}
+                  <span className="text-sm font-medium">
+                    {message.sender === "ai" ? "AI Co-Pilot" : "You"}
+                  </span>
+                </div>
+                <p className="text-sm leading-relaxed break-words">{message.content}</p>
+                <span className="text-xs opacity-70 mt-2 block">
+                  {message.timestamp.toLocaleTimeString()}
                 </span>
               </div>
-              <p className="text-sm leading-relaxed">{message.content}</p>
-              <span className="text-xs opacity-70 mt-2 block">
-                {message.timestamp.toLocaleTimeString()}
-              </span>
             </div>
-          </div>
-        ))}
-        
-        {isTyping && (
-          <div className="flex justify-start">
-            <div className="bg-card border shadow-sm p-4 rounded-2xl max-w-[80%] md:max-w-[60%]">
-              <div className="flex items-center gap-2 mb-2">
-                <Bot className="h-4 w-4" />
-                <span className="text-sm font-medium">AI Co-Pilot</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-primary rounded-full ai-pulse"></div>
-                <div className="w-2 h-2 bg-primary rounded-full ai-pulse" style={{ animationDelay: '0.5s' }}></div>
-                <div className="w-2 h-2 bg-primary rounded-full ai-pulse" style={{ animationDelay: '1s' }}></div>
-                <span className="text-sm text-muted-foreground ml-2">Thinking...</span>
+          ))}
+          
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-card border shadow-sm p-3 sm:p-4 rounded-2xl max-w-[85%] sm:max-w-[75%] md:max-w-[60%]">
+                <div className="flex items-center gap-2 mb-2">
+                  <Bot className="h-4 w-4" />
+                  <span className="text-sm font-medium">AI Co-Pilot</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 bg-primary rounded-full ai-pulse"></div>
+                  <div className="w-2 h-2 bg-primary rounded-full ai-pulse" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="w-2 h-2 bg-primary rounded-full ai-pulse" style={{ animationDelay: '1s' }}></div>
+                  <span className="text-sm text-muted-foreground ml-2">Thinking...</span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        
+          )}
+        </div>
         <div ref={messagesEndRef} />
       </div>
 
       {/* Suggestion Cards */}
-      <div className="px-4 py-2 border-t bg-card/50 backdrop-blur-sm">
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {suggestions.map((suggestion) => (
-            <Card
-              key={suggestion.id}
-              className="flex-shrink-0 cursor-pointer hover:shadow-md transition-all glow"
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              <CardContent className="p-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <Sparkles className="h-3 w-3 text-primary" />
-                  <Badge variant="secondary" className="text-xs">
-                    {suggestion.category}
-                  </Badge>
-                </div>
-                <p className="text-sm text-foreground max-w-[200px] truncate">
-                  {suggestion.text}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+      <div className="px-2 sm:px-4 py-2 border-t bg-card/50 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {suggestions.map((suggestion) => (
+              <Card
+                key={suggestion.id}
+                className="flex-shrink-0 cursor-pointer hover:shadow-md transition-all glow min-w-[200px] max-w-[250px]"
+                onClick={() => handleSuggestionClick(suggestion)}
+              >
+                <CardContent className="p-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Sparkles className="h-3 w-3 text-primary flex-shrink-0" />
+                    <Badge variant="secondary" className="text-xs">
+                      {suggestion.category}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-foreground line-clamp-2">
+                    {suggestion.text}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t bg-card/50 backdrop-blur-sm">
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <Input
-              value={currentMessage}
-              onChange={(e) => setCurrentMessage(e.target.value)}
-              placeholder="Share your startup idea or ask a question..."
-              className="pr-12"
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  handleSendMessage(currentMessage)
-                }
-              }}
-            />
+      <div className="px-2 sm:px-4 py-4 border-t bg-card/50 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex gap-2">
+            <div className="flex-1 min-w-0">
+              <Input
+                value={currentMessage}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                placeholder="Share your startup idea or ask a question..."
+                className="w-full"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    handleSendMessage(currentMessage)
+                  }
+                }}
+              />
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleVoiceInput}
+              className={`flex-shrink-0 ${isListening ? "bg-red-500 text-white" : ""}`}
+              disabled={isListening}
+            >
+              <Mic className="h-4 w-4" />
+            </Button>
+            <Button
+              onClick={() => handleSendMessage(currentMessage)}
+              disabled={!currentMessage.trim() || isTyping}
+              className="btn-gradient flex-shrink-0"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleVoiceInput}
-            className={isListening ? "bg-red-500 text-white" : ""}
-            disabled={isListening}
-          >
-            <Mic className="h-4 w-4" />
-          </Button>
-          <Button
-            onClick={() => handleSendMessage(currentMessage)}
-            disabled={!currentMessage.trim() || isTyping}
-            className="btn-gradient"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
         </div>
       </div>
     </div>
